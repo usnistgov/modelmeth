@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Data">
+  <eAnnotations source="Author:pdenno.&#xA;Created:9/26/14 10:18 AM.&#xA;Title:.&#xA;Comment:.&#xA;"
+      references="#/"/>
+  <eSubpackages name="OPL">
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="#//OPL/PathExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionName" ordered="false"
+          lowerBound="1" eType="#//OPL/Identifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="args" ordered="false"
+          upperBound="-1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BlockExpression" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="blocks" ordered="false"
+          lowerBound="1" eType="#//OPL/BooleanBlock"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfExpression" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="test" ordered="false"
+          lowerBound="1" eType="#//OPL/BooleanExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="then" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="else" ordered="false"
+          eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true">
+      <eAnnotations source="A lexical structure that may be evaluated to produce a value conforming to AbstractType.&#xA;&#xA;"
+          references="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" ordered="false" lowerBound="1"
+          eType="#//OPL/AbstractBinaryOp"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Error"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PathDereference" abstract="true" eSuperTypes="#//OPL/PathExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deref" ordered="false"
+          lowerBound="1" eType="#//OPL/Reference"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base" ordered="false"
+          eType="#//OPL/PathExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Comprehension" eSuperTypes="#//OPL/CollectionExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CollectionExpression" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUnique" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="isUnique determines whether the collection is a Set (isUnique = true) or an Array (isUnique = false)."
+            references="#//OPL/CollectionExpression/isUnique"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayDereference" eSuperTypes="#//OPL/PathExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="array" ordered="false"
+          lowerBound="1" eType="#//OPL/PathExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="index" lowerBound="1"
+          upperBound="-1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayType" eSuperTypes="#//OPL/DefinedType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" ordered="false"
+          lowerBound="1" eType="#//OPL/AbstractType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subscripts" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/DataRef"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArraySlotConstraint" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
+          lowerBound="1" eType="#//OPL/ArrayDereference"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanBlock"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PiecewiseExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Operator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SetType" eSuperTypes="#//OPL/DefinedType #//OPL/ParameterDomain">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          eType="#//OPL/Identifier">
+        <eAnnotations source="So as to enable definition of anonymous types, .name is optional in all cases but EnumerationType (OCL or redefinition?)"
+            references="#//OPL/SetType/name"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" ordered="false"
+          lowerBound="1" eType="#//OPL/AbstractType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elements" ordered="false"
+          upperBound="-1" eType="#//OPL/Entity"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exp" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" ordered="false" lowerBound="1"
+          eType="#//OPL/UnaryOp"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RangeExpression" eSuperTypes="#//OPL/NumericExpression">
+      <eAnnotations source="A RangeExpression is a AllRange defining the lower and upper bounds on the range."
+          references="#//OPL/RangeExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lowerLimit" ordered="false"
+          lowerBound="1" eType="#//OPL/NumericExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="upperLimit" ordered="false"
+          lowerBound="1" eType="#//OPL/NumericExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false"
+          eType="#//OPL/NumericType">
+        <eAnnotations source="FloatType for IntegerType. Used when a variable declaration explicitly "
+            references="#//OPL/RangeExpression/type"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="AggOp">
+      <eAnnotations source="Due to the similarities of all constraints and all arithmetic terms in constraints and objective functions, aggregate operators are used in OPL to factorize these commonalities"
+          references="#//OPL/AggOp"/>
+      <eLiterals name="sum"/>
+      <eLiterals name="min"/>
+      <eLiterals name="max"/>
+      <eLiterals name="prod"/>
+      <eLiterals name="inter"/>
+      <eLiterals name="union"/>
+      <eLiterals name="or"/>
+      <eLiterals name="and"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SetOp">
+      <eLiterals name="symdiff"/>
+      <eLiterals name="diff"/>
+      <eLiterals name="union"/>
+      <eLiterals name="inter"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PathExpression" abstract="true" eSuperTypes="#//OPL/Expression">
+      <eAnnotations source="an Expression defining the path to a value " references="#//OPL/PathExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Model">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false">
+        <eAnnotations source="POD This might be a CPLEX-only thing. Or it might be wrong!"
+            references="#//OPL/Model/id"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isConstraintProblem"
+          ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
+          upperBound="-1" eType="#//OPL/DefinedType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="data" ordered="false"
+          upperBound="-1" eType="#//OPL/DataDeclaration">
+        <eAnnotations source="Model.data is a property providing the DataDeclarations of the Model."
+            references="#//OPL/Model/data"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" ordered="false"
+          upperBound="-1" eType="#//OPL/Constraint">
+        <eAnnotations source="POD Note: There are also constraints in the Instruction. What is this one about?"
+            references="#//OPL/Model/constraints"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instruction" ordered="false"
+          lowerBound="1" eType="#//OPL/Objective"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="functions" ordered="false"
+          upperBound="-1" eType="#//OPL/Function"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activities" ordered="false"
+          upperBound="-1" eType="#//OPL/ActivityDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
+          lowerBound="1" eType="#//OPL/ResourceDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assertions" ordered="false"
+          upperBound="-1" eType="#//OPL/Constraint"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scheduleInit" ordered="false"
+          upperBound="-1" eType="#//OPL/ScheduleInitialization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scripts" ordered="false"
+          upperBound="-1" eType="#//OPL/Script"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="settings" ordered="false"
+          upperBound="-1" eType="#//OPL/Setting"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
+          eType="#//OPL/Declaration">
+        <eAnnotations source="an ordered collection of the subtypes of Declaration that subset this property (e.g. types, data, constraints, etc.)"
+            references="#//OPL/Model/declarations"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="search" ordered="false"
+          eType="#//OPL/SearchProcedure"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Extension" eSuperTypes="#//OPL/CollectionExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exps" ordered="false"
+          upperBound="-1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="UnaryOp">
+      <eLiterals name="unaryMinus"/>
+      <eLiterals name="negate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Objective" eSuperTypes="#//OPL/Declaration">
+      <eAnnotations source="an expression to be satisfied or optimized by performing the analysis described by the Model"
+          references="#//OPL/Objective"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" ordered="false"
+          lowerBound="1" eType="#//OPL/OptimizationMode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="expression" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLinearRelaxation" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="OptimizationMode">
+      <eLiterals name="minimize"/>
+      <eLiterals name="maximize"/>
+      <eLiterals name="solve"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//OPL/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exp" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Script" eSuperTypes="#//OPL/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" ordered="false" eType="#//OPL/Reference"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMain" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statements" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/ScriptStatement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Reference" abstract="true" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="#//OPL/Identifier"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="BinaryOp">
+      <eLiterals name="add"/>
+      <eLiterals name="subtract"/>
+      <eLiterals name="multiply"/>
+      <eLiterals name="divide"/>
+      <eLiterals name="percent"/>
+      <eLiterals name="mod"/>
+      <eLiterals name="inter"/>
+      <eLiterals name="union "/>
+      <eLiterals name="diff"/>
+      <eLiterals name="symdiff"/>
+      <eLiterals name="power"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RelationalOp">
+      <eAnnotations source="Due to the similarities of all constraints and all arithmetic terms in constraints and objective functions, aggregate operators are used in OPL to factorize these commonalities"
+          references="#//OPL/RelationalOp"/>
+      <eLiterals name="greaterThan"/>
+      <eLiterals name="greaterThanOrEqualTo"/>
+      <eLiterals name="lessThan"/>
+      <eLiterals name="lessThanOrEqualTo"/>
+      <eLiterals name="equalTo"/>
+      <eLiterals name="notEqualTo"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="MembershipOp">
+      <eLiterals name="in"/>
+      <eLiterals name="not in"/>
+      <eLiterals name="or"/>
+      <eLiterals name="and"/>
+      <eLiterals name="conjunction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="LogicalOp">
+      <eLiterals name="negation"/>
+      <eLiterals name="disjunction"/>
+      <eLiterals name="or"/>
+      <eLiterals name="and"/>
+      <eLiterals name="conjunction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DefinedType" abstract="true" eSuperTypes="#//OPL/AbstractType #//OPL/Declaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumerationType" eSuperTypes="#//OPL/SetType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" ordered="false"
+          lowerBound="1" eType="#//OPL/EnumLiteral"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Record" eSuperTypes="#//OPL/ParameterDomain #//OPL/DefinedType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="#//OPL/Identifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+          eType="#//OPL/RecordField"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTuple" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PrimitiveType" abstract="true" eSuperTypes="#//OPL/AbstractType">
+      <eAnnotations source="a type descriptor for any type where the value provides identity.  "
+          references="#//OPL/PrimitiveType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringType" eSuperTypes="#//OPL/PrimitiveType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerType" eSuperTypes="#//OPL/NumericType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FloatType" eSuperTypes="#//OPL/NumericType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PositiveFloatType" eSuperTypes="#//OPL/FloatType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteral" eSuperTypes="#//OPL/PrimitiveType #//OPL/PrimitiveExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RecordField">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="#//OPL/Identifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false"
+          lowerBound="1" eType="#//OPL/AbstractType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Function" abstract="true" eSuperTypes="#//OPL/Declaration">
+      <eAnnotations source="A Function binds a set of parameters (.parameters) in the scope of an expression (.body) and evaluates the Expression producing a value."
+          references="#//OPL/Function"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="name" ordered="false"
+          lowerBound="1" eType="#//OPL/FunctionRef">
+        <eAnnotations source="Function.name is a Reference associated with a Function used in making calls to the function."
+            references="#//OPL/Function/name"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" ordered="false"
+          upperBound="-1" eType="#//OPL/Reference"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BuiltInFunction" eSuperTypes="#//OPL/Function"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ReflectiveFunction" eSuperTypes="#//OPL/BuiltInFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+        <eAnnotations source="the sequence number (starting at 1) in which the declaration is found in the "
+            references="#//OPL/Declaration/order"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityDeclaration" eSuperTypes="#//OPL/Declaration">
+      <eAnnotations source="a unit of work that is constrained to occur within the bounds defined"
+          references="#//OPL/ActivityDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="duration" ordered="false"
+          lowerBound="1" eType="#//OPL/Number">
+        <eAnnotations source="a quantity of time required to perform the activity associated with this declaration"
+            references="#//OPL/ActivityDeclaration/duration"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="earliestStartTime" ordered="false"
+          lowerBound="1" eType="#//OPL/Timepoint">
+        <eAnnotations source="the earliest point in time (a timepoint) at which the activity may start."
+            references="#//OPL/ActivityDeclaration/earliestStartTime"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="latestEndTime" ordered="false"
+          lowerBound="1" eType="#//OPL/Timepoint">
+        <eAnnotations source="the latest point in time (a timepoint) at which the activity may end."
+            references="#//OPL/ActivityDeclaration/latestEndTime"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceDeclaration" eSuperTypes="#//OPL/Declaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Assertion" eSuperTypes="#//OPL/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exp" ordered="false"
+          lowerBound="1" eType="#//OPL/Constraint"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScheduleInitialization" eSuperTypes="#//OPL/Declaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Setting" eSuperTypes="#//OPL/Declaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SearchProcedure"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DisplayInstruction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exps" ordered="false"
+          upperBound="-1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" ordered="false"
+          upperBound="-1" eType="#//OPL/ParameterDeclaration"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParameterDeclaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AbstractType" abstract="true">
+      <eAnnotations source="The most general class of type descriptor." references="#//OPL/AbstractType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PositiveIntegerType" eSuperTypes="#//OPL/IntegerType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FormalParameter">
+      <eAnnotations source="A FormalParameter binds a set of parameters provided by .boundVars to a Domain."
+          references="#//OPL/FormalParameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+          lowerBound="1" eType="#//OPL/ParameterDomain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="boundVars" ordered="false"
+          upperBound="-1" eType="#//OPL/BindingRef"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOrdered" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="require" ordered="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataDeclaration" eSuperTypes="#//OPL/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" ordered="false"
+          lowerBound="1" eType="#//OPL/DataRef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false"
+          lowerBound="1" eType="#//OPL/AbstractType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDecisionVar" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDecisionExpr" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
+          eType="#//OPL/Initialization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="valueConstraint" ordered="false"
+          eType="#//OPL/Expression">
+        <eAnnotations source="An Expression (including a RangeExpression) that further constrains the value space described by .type. This is introduced by the keyword &quot;in.&quot; Example: &quot;dvar float Store[Months][Products] in 0..1000;&quot;  this property expresses the &quot;in 0..1000&quot;&#xA;"
+            references="#//OPL/DataDeclaration/valueConstraint"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//OPL/Initialization">
+      <eAnnotations source="A DataObject is data a metalevel below the OPL metamodel. It is an instance of an AbstractType. The value of the DataObject must conform to the type declared in the DataDeclaration. "
+          references="#//OPL/DataObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vars" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/BindingRef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParameterDomain" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BindingRef" eSuperTypes="#//OPL/Reference"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="Quantifier">
+      <eLiterals name="forAll"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AggregateExp" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" ordered="false" lowerBound="1"
+          eType="#//OPL/AggOp"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/FormalParameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TupleBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vars" lowerBound="1"
+          upperBound="-1" eType="#//OPL/BindingRef"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArithmeticExp">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unaryOp" ordered="false"
+          lowerBound="1" eType="#//OPL/UnaryOp"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="term" ordered="false"
+          lowerBound="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="terms" ordered="false"
+          upperBound="-1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ops" ordered="false"
+          upperBound="-1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalExpression" eSuperTypes="#//OPL/BinaryExpression #//OPL/BooleanExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" ordered="false" lowerBound="1"
+          eType="#//OPL/RelationalOp"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PrimitiveExpression" abstract="true"
+        eSuperTypes="#//OPL/Expression">
+      <eAnnotations source="an expression that evaluates to a Primitive" references="#//OPL/PrimitiveExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScriptStatement" abstract="true">
+      <eAnnotations source="This is" references="#//OPL/ScriptStatement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Writeln" eSuperTypes="#//OPL/ScriptStatement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="string" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="arg" ordered="false"
+          lowerBound="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QueryUser" eSuperTypes="#//OPL/DataInitMethods">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ask" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReadFile" eSuperTypes="#//OPL/DataInitMethods">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataInitMethods" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="AbstractBinaryOp"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalInit" eSuperTypes="#//OPL/Initialization">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bindingVar" ordered="false"
+          lowerBound="1" eType="#//OPL/BindingRef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sources" ordered="false"
+          lowerBound="1" eType="#//OPL/VariableBinding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="relation" ordered="false"
+          lowerBound="1" eType="#//OPL/RelationalExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Initialization" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ForAllConstraint" eSuperTypes="#//OPL/Constraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qualifiers" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/FormalParameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exps" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/Constraint"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfConstraint" eSuperTypes="#//OPL/Constraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="test" ordered="false"
+          lowerBound="1" eType="#//OPL/BooleanExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="then" ordered="false"
+          lowerBound="1" eType="#//OPL/Constraint"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="else" ordered="false"
+          eType="#//OPL/Constraint"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Interval">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOptional" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" ordered="false"
+          lowerBound="1" eType="#//OPL/RangeType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="size" ordered="false"
+          lowerBound="1" eType="#//OPL/NumericType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intensity" ordered="false"
+          lowerBound="1" eType="#//OPL/StepFunction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PiecewiseLinearFunction" eSuperTypes="#//OPL/Function"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StepFunction" eSuperTypes="#//OPL/PiecewiseLinearFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CumulativeFunction" eSuperTypes="#//OPL/Function"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StateFunction" eSuperTypes="#//OPL/Function">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionMatrix" ordered="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AllExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qualifiers" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//OPL/FormalParameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataRef" eSuperTypes="#//OPL/Reference">
+      <eAnnotations source="a reference to a DataObject" references="#//OPL/DataRef"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionRef">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Sequence">
+      <eAnnotations references="#//OPL/Sequence"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intervals" ordered="false"
+          lowerBound="2" upperBound="-1" eType="#//OPL/Interval"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
+          lowerBound="1" eType="#//OPL/DefinedType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" eSuperTypes="#//OPL/PrimitiveExpression">
+      <eAnnotations source="an Expression that evaluates to a Boolean" references="#//OPL/BooleanExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerExpression" eSuperTypes="#//OPL/NumericExpression">
+      <eAnnotations source="an Expression that evalutates to an Integer." references="#//OPL/IntegerExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringExpression" eSuperTypes="#//OPL/PrimitiveExpression">
+      <eAnnotations source="an Expression that evaluates to a String." references="#//OPL/StringExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NumericExpression" eSuperTypes="#//OPL/PrimitiveExpression">
+      <eAnnotations source="an Expression that evaluates to a NumericType." references="#//OPL/NumericExpression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FloatExpression" eSuperTypes="#//OPL/NumericExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NumericType" eSuperTypes="#//OPL/PrimitiveType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FloatRangeType" eSuperTypes="#//OPL/FloatType #//OPL/RangeType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerRangeType" eSuperTypes="#//OPL/IntegerType #//OPL/RangeType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RangeType" abstract="true" eSuperTypes="#//OPL/SetType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="upperBound" ordered="false"
+          lowerBound="1" eType="#//OPL/NumericType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lowerBound" ordered="false"
+          lowerBound="1" eType="#//OPL/NumericType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParameterRef" eSuperTypes="#//OPL/Reference"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DeferredInit"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanType" eSuperTypes="#//OPL/PrimitiveType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayValue" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="items" ordered="false"
+          upperBound="-1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IndexValuePair" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="index" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
+          lowerBound="1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetValue" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="items" ordered="false"
+          upperBound="-1" eType="#//OPL/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RecordValue" eSuperTypes="#//OPL/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fieldPairs" ordered="false"
+          upperBound="-1" eType="#//OPL/IndexValuePair"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="In"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Entity">
+      <eAnnotations source="an object of any type. " references="#//OPL/Entity"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EDataType" name="Identifier"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Number"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Timepoint"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Timepoint"/>
+  </eSubpackages>
+  <eSubpackages name="OPL Functions"/>
+</ecore:EPackage>
